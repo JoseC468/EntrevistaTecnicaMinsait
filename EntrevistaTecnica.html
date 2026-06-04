@@ -1,0 +1,752 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Prueba Técnica</title>
+<link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display:ital@0;1&family=DM+Mono:wght@400;500&family=Outfit:wght@300;400;500;600&display=swap" rel="stylesheet">
+<style>
+  :root {
+    /* Minsait corporate palette */
+    --brand:        #7B1A3E;
+    --brand-dark:   #5A1230;
+    --brand-light:  #f5e8ed;
+    --accent:       #E8175D;
+    --accent-bg:    #fce8f0;
+    --accent-border:#f5a0c0;
+    --olive:        #4A5240;
+    --olive-bg:     #edeee9;
+    --olive-border: #b4b9a8;
+
+    --ink:      #1a1a1a;
+    --ink-2:    #3a3a3a;
+    --ink-3:    #6b6b6b;
+    --ink-4:    #9e9e9e;
+    --surface:  #ffffff;
+    --surface-2:#f5f2ee;
+    --surface-3:#ede9e3;
+    --border:   #ddd8d0;
+    --border-2: #c8c2b8;
+
+    --blue:        #7B1A3E;
+    --blue-bg:     #f5e8ed;
+    --blue-border: #d4a0b5;
+    --green:       #4A5240;
+    --green-bg:    #edeee9;
+    --green-border:#b4b9a8;
+    --purple:      #7B1A3E;
+    --purple-bg:   #f5e8ed;
+    --purple-border:#d4a0b5;
+    --amber:       #7a4a10;
+    --amber-bg:    #fef6ea;
+    --amber-border:#f0c87a;
+    --teams:       #6264a7;
+    --teams-bg:    #f0f0f8;
+    --teams-border:#c5c6e8;
+    --mono: 'DM Mono', monospace;
+  }
+
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+
+  body {
+    font-family: 'Outfit', sans-serif;
+    font-weight: 400;
+    color: var(--ink);
+    background: #ede9e3;
+    line-height: 1.6;
+  }
+
+  .page {
+    max-width: 860px;
+    margin: 0 auto;
+    padding: 2.5rem 1.5rem 5rem;
+  }
+
+  .doc-header {
+    background: var(--brand);
+    color: white;
+    border-radius: 16px;
+    padding: 2.5rem 2.5rem 2rem;
+    margin-bottom: 2rem;
+    position: relative;
+    overflow: hidden;
+  }
+  .doc-header::before {
+    content: '';
+    position: absolute; top: -60px; right: -60px;
+    width: 220px; height: 220px; border-radius: 50%;
+    background: rgba(255,255,255,0.04);
+  }
+  .doc-header::after {
+    content: '';
+    position: absolute; bottom: -40px; left: 40%;
+    width: 160px; height: 160px; border-radius: 50%;
+    background: rgba(232,23,93,0.18);
+  }
+  .header-label {
+    font-size: 11px; font-weight: 600; letter-spacing: .12em;
+    text-transform: uppercase; color: rgba(255,255,255,0.4); margin-bottom: .75rem;
+  }
+  .doc-header h1 {
+    font-family: 'DM Serif Display', serif;
+    font-size: 2.4rem; font-weight: 400; line-height: 1.15;
+    margin-bottom: .75rem; position: relative; z-index: 1;
+  }
+  .doc-header p {
+    font-size: 14px; color: rgba(255,255,255,0.6);
+    line-height: 1.7; max-width: 580px;
+    position: relative; z-index: 1;
+  }
+  .header-meta {
+    display: flex; gap: 1rem; margin-top: 1.5rem;
+    flex-wrap: wrap; position: relative; z-index: 1;
+  }
+  .meta-pill {
+    display: flex; align-items: center; gap: 6px;
+    font-size: 12px; color: rgba(255,255,255,0.55);
+    background: rgba(255,255,255,0.07);
+    border: 1px solid rgba(255,255,255,0.1);
+    border-radius: 20px; padding: 4px 12px;
+  }
+
+  .teams-notice {
+    background: var(--teams-bg); border: 1px solid var(--teams-border);
+    border-radius: 12px; padding: 1.25rem 1.5rem;
+    margin-bottom: 2rem; display: flex; gap: 1rem; align-items: flex-start;
+  }
+  .teams-icon {
+    width: 36px; height: 36px; background: var(--teams); border-radius: 8px;
+    display: flex; align-items: center; justify-content: center;
+    flex-shrink: 0; font-size: 15px; color: white; font-weight: 700;
+  }
+  .teams-notice h3 { font-size: 13px; font-weight: 600; color: var(--teams); margin-bottom: 4px; }
+  .teams-notice p  { font-size: 13px; color: var(--ink-2); line-height: 1.6; }
+  .teams-notice ul { margin: .5rem 0 0 1.1rem; font-size: 13px; color: var(--ink-2); }
+  .teams-notice li { margin-bottom: 3px; }
+  .teams-notice strong { color: var(--teams); }
+  .optional-tag {
+    display: inline-block; font-size: 10px; font-weight: 600;
+    letter-spacing: .06em; text-transform: uppercase;
+    background: rgba(98,100,167,0.15); color: var(--teams);
+    border-radius: 4px; padding: 1px 6px; margin-left: 4px;
+    vertical-align: middle;
+  }
+
+  .section-block { margin-bottom: 2.5rem; }
+  .section-head {
+    display: flex; align-items: center; gap: .875rem;
+    margin-bottom: 1.25rem; padding-bottom: .875rem;
+    border-bottom: 1.5px solid var(--border);
+  }
+  .section-badge {
+    width: 32px; height: 32px; border-radius: 8px;
+    display: flex; align-items: center; justify-content: center;
+    font-size: 14px; font-weight: 600; flex-shrink: 0;
+  }
+  .s1 .section-badge { background: var(--brand-light); color: var(--brand); }
+  .s2 .section-badge { background: var(--olive-bg);    color: var(--olive); }
+  .s3 .section-badge { background: var(--accent-bg);   color: var(--accent); }
+
+  .section-head h2 {
+    font-family: 'DM Serif Display', serif;
+    font-size: 1.25rem; font-weight: 400; color: var(--ink);
+  }
+  .section-head .tool-badge {
+    margin-left: auto; font-size: 11px; font-family: var(--mono);
+    color: var(--ink-3); background: var(--surface-3);
+    border: 1px solid var(--border); border-radius: 6px; padding: 3px 10px;
+  }
+  .section-intro {
+    font-size: 13px; color: var(--ink-3); background: var(--surface-2);
+    border-radius: 8px; padding: .875rem 1.125rem; margin-bottom: 1.25rem;
+    line-height: 1.65; border-left: 3px solid var(--brand);
+  }
+  .section-intro a { color: var(--accent); font-weight: 500; text-decoration: none; }
+  .section-intro a:hover { text-decoration: underline; }
+
+  .q-card {
+    background: var(--surface); border: 1px solid var(--border);
+    border-radius: 12px; margin-bottom: 1.25rem; overflow: hidden;
+    transition: box-shadow .2s;
+  }
+  .q-card:hover { box-shadow: 0 4px 20px rgba(0,0,0,0.07); }
+
+  .q-header {
+    display: flex; align-items: flex-start; gap: 10px;
+    padding: 1.125rem 1.375rem .875rem;
+    border-bottom: 1px solid var(--border);
+  }
+  .q-num {
+    font-size: 11px; font-weight: 600; font-family: var(--mono);
+    color: var(--brand); background: var(--brand-light);
+    border-radius: 6px; padding: 3px 8px; flex-shrink: 0; margin-top: 1px;
+  }
+  .q-title { font-size: 15px; font-weight: 600; color: var(--ink); line-height: 1.4; }
+
+  .q-body { padding: 1.125rem 1.375rem; }
+
+  .context-box {
+    background: var(--surface-2); border-radius: 8px;
+    padding: .875rem 1rem; margin-bottom: 1rem;
+    font-size: 13px; color: var(--ink-2); line-height: 1.65;
+    border-left: 3px solid #d4a0b5;
+  }
+  .context-label {
+    font-size: 10px; font-weight: 700; letter-spacing: .1em;
+    text-transform: uppercase; color: var(--accent); margin-bottom: .375rem;
+  }
+
+  .task-list { list-style: none; margin-bottom: 1rem; }
+  .task-list li {
+    font-size: 13.5px; color: var(--ink-2);
+    padding: .35rem 0 .35rem 1.5rem; position: relative;
+    line-height: 1.6; border-bottom: 1px solid var(--surface-3);
+  }
+  .task-list li:last-child { border-bottom: none; }
+  .task-list li::before { content: '→'; position: absolute; left: 0; color: var(--ink-4); font-size: 12px; }
+  .task-list li.highlight { color: var(--ink); font-weight: 500; }
+  .task-list li.highlight::before { content: '💬'; font-size: 11px; top: .4rem; }
+
+  code {
+    font-family: var(--mono); font-size: 12px;
+    background: var(--surface-3); border: 1px solid var(--border);
+    border-radius: 4px; padding: 1px 5px; color: var(--brand);
+  }
+
+  .note-box {
+    display: flex; gap: 8px;
+    background: var(--amber-bg); border: 1px solid var(--amber-border);
+    border-radius: 8px; padding: .75rem 1rem; margin-top: .875rem;
+    font-size: 12.5px; color: var(--amber); line-height: 1.55;
+  }
+  .note-box::before { content: '⚑'; font-size: 13px; flex-shrink: 0; margin-top: 1px; }
+
+  .code-block {
+    background: #0f1117; border-radius: 10px;
+    overflow: hidden; margin: .875rem 0;
+    font-family: var(--mono); font-size: 12.5px;
+  }
+  .code-header {
+    display: flex; align-items: center; justify-content: space-between;
+    padding: .5rem .875rem; background: #1a1d27;
+    border-bottom: 1px solid rgba(255,255,255,0.06);
+  }
+  .code-lang {
+    font-size: 10px; font-weight: 600; letter-spacing: .1em;
+    text-transform: uppercase; color: rgba(255,255,255,0.35);
+  }
+  .code-label { font-size: 11px; color: rgba(255,255,255,0.25); }
+  pre {
+    padding: 1rem 1.125rem; overflow-x: auto;
+    line-height: 1.65; color: #e2e8f0; white-space: pre;
+  }
+  .kw { color: #93c5fd; }
+  .fn { color: #86efac; }
+  .st { color: #fca5a5; }
+  .cm { color: #64748b; font-style: italic; }
+  .nm { color: #fde68a; }
+  .op { color: #c4b5fd; }
+  .blank {
+    color: #f97316; background: rgba(249,115,22,0.15);
+    border-radius: 3px; padding: 0 4px; font-style: italic;
+    border-bottom: 1.5px dashed #f97316;
+  }
+
+  .teams-delivery {
+    background: var(--teams-bg); border: 1px solid var(--teams-border);
+    border-radius: 8px; padding: .75rem 1rem; margin-top: .875rem;
+  }
+  .teams-delivery-title {
+    font-size: 11px; font-weight: 700; letter-spacing: .08em;
+    text-transform: uppercase; color: var(--teams);
+    margin-bottom: .4rem; display: flex; align-items: center; gap: 5px;
+  }
+  .teams-delivery ul { list-style: none; font-size: 12.5px; color: #4a4d7a; line-height: 1.65; }
+  .teams-delivery li { padding: 2px 0; }
+  .teams-delivery li::before { content: '✓ '; color: var(--teams); font-weight: 600; }
+
+  .tools-row { display: flex; gap: 8px; flex-wrap: wrap; margin-bottom: .75rem; }
+  .tool-option {
+    display: inline-flex; align-items: center; gap: 5px;
+    font-size: 12px; font-family: var(--mono);
+    color: var(--olive); background: var(--olive-bg);
+    border: 1px solid var(--olive-border);
+    border-radius: 8px; padding: 4px 12px;
+  }
+
+  .doc-footer {
+    background: var(--surface); border: 1px solid var(--border);
+    border-radius: 12px; padding: 1.5rem 1.75rem; margin-top: 2rem;
+  }
+  .doc-footer h3 {
+    font-family: 'DM Serif Display', serif;
+    font-size: 1.1rem; font-weight: 400; margin-bottom: .75rem; color: var(--ink);
+  }
+  .doc-footer p { font-size: 13.5px; color: var(--ink-2); line-height: 1.7; margin-bottom: .5rem; }
+  .checklist { list-style: none; margin-top: .75rem; }
+  .checklist li {
+    font-size: 13px; color: var(--ink-2);
+    padding: .35rem 0 .35rem 1.5rem; position: relative;
+    border-bottom: 1px solid var(--surface-3);
+  }
+  .checklist li:last-child { border-bottom: none; }
+  .checklist li::before { content: '☐'; position: absolute; left: 0; color: var(--ink-4); }
+
+  @media print {
+    body { background: white; }
+    .page { padding: 1.5rem; }
+    .q-card:hover { box-shadow: none; }
+  }
+</style>
+</head>
+<body>
+<div class="page">
+
+  <!-- HEADER -->
+  <div class="doc-header">
+    <div class="header-label">Evaluación técnica</div>
+    <h1>Prueba Técnica</h1>
+    <p>Esta prueba evalúa tu capacidad para trabajar con datos reales, resolver problemas de negocio y comunicar hallazgos con claridad. No buscamos únicamente código correcto — buscamos criterio analítico y claridad de pensamiento.</p>
+    <div class="header-meta">
+      <span class="meta-pill">⏱ 60 minutos</span>
+      <span class="meta-pill">📋 3 secciones · 10 preguntas</span>
+      <span class="meta-pill">💬 Entrega por Teams</span>
+    </div>
+  </div>
+
+  <!-- TEAMS NOTICE -->
+  <div class="teams-notice">
+    <div class="teams-icon">T</div>
+    <div>
+      <h3>Instrucciones de entrega — Microsoft Teams</h3>
+      <p>Responde <strong>directamente en el chat de Teams</strong> asignado para esta prueba. Por cada pregunta debes enviar:</p>
+      <ul>
+        <li><strong>Captura de pantalla</strong> del resultado obtenido</li>
+        <li><strong>El código o query</strong> pegado como texto en el mensaje</li>
+        <li><strong>Tu comentario de negocio</strong> <span class="optional-tag">opcional</span> — si el tiempo lo permite, 2 líneas explicando qué encontraste y qué significa para el equipo</li>
+      </ul>
+    </div>
+  </div>
+
+
+  <!-- ===== SECCIÓN 1 ===== -->
+  <div class="section-block s1">
+    <div class="section-head">
+      <div class="section-badge">1</div>
+      <h2>Modelado de datos</h2>
+      <span class="tool-badge">Herramienta libre</span>
+    </div>
+
+    <div class="q-card">
+      <div class="q-header">
+        <span class="q-num">P1</span>
+        <span class="q-title">Diseño de base de datos relacional</span>
+      </div>
+      <div class="q-body">
+        <div class="context-box">
+          <div class="context-label">Contexto de negocio</div>
+          Eres parte del equipo de datos de una empresa de e-commerce. El equipo comercial necesita una base de datos para registrar clientes, pedidos y productos, y poder responder preguntas como: ¿Qué clientes compraron más de una vez? ¿Cuál es el producto más vendido por región?
+        </div>
+        <p style="font-size:13px;color:var(--ink-3);margin-bottom:.75rem;">Puedes usar cualquiera de las siguientes herramientas:</p>
+        <div class="tools-row">
+          <span class="tool-option">📊 Excel</span>
+          <span class="tool-option">🎨 draw.io</span>
+          <span class="tool-option">✏️ Lucidchart</span>
+          <span class="tool-option">🖊️ Papel y foto</span>
+        </div>
+        <ul class="task-list">
+          <li>Diseña el modelo entidad-relación con al menos 3 tablas y 4 campos por tabla</li>
+          <li>Marca visualmente la llave primaria de cada tabla (color, negrita o etiqueta <code>PK</code>)</li>
+          <li>Indica las relaciones entre tablas (1:N, N:M, etc.)</li>
+          <li class="highlight">Envía al Teams: imagen o archivo del modelo + un párrafo explicando tus decisiones de diseño y qué consultas de negocio permite responder <span class="optional-tag">comentario opcional</span></li>
+        </ul>
+      </div>
+    </div>
+  </div>
+
+
+  <!-- ===== SECCIÓN 2 ===== -->
+  <div class="section-block s2">
+    <div class="section-head">
+      <div class="section-badge">2</div>
+      <h2>SQL aplicado</h2>
+      <span class="tool-badge">programiz.com/sql/online-compiler</span>
+    </div>
+
+    <div class="section-intro">
+      Ingresa al compilador online: <a href="https://www.programiz.com/sql/online-compiler/" target="_blank">https://www.programiz.com/sql/online-compiler/</a><br>
+      Las tablas <strong>Customers</strong> y <strong>Orders</strong> ya están precargadas y disponibles para consulta. Para cada pregunta: escribe tu query, ejecútala y envía al Teams la captura junto con tu query.
+    </div>
+
+    <!-- P2 -->
+    <div class="q-card">
+      <div class="q-header"><span class="q-num">P2</span><span class="q-title">Análisis de base de clientes por edad</span></div>
+      <div class="q-body">
+        <div class="context-box">
+          <div class="context-label">Contexto de negocio</div>
+          El equipo de marketing necesita segmentar a los clientes por edad para diseñar una campaña de fidelización dirigida.
+        </div>
+        <ul class="task-list">
+          <li>Muestra todos los clientes ordenados de mayor a menor edad</li>
+          <li class="highlight">Envía al Teams: captura + query + ¿qué observas sobre la distribución etaria? <span class="optional-tag">comentario opcional</span></li>
+        </ul>
+        <div class="teams-delivery">
+          <div class="teams-delivery-title">💬 Qué enviar por Teams</div>
+          <ul>
+            <li>Captura de pantalla con la query ejecutada y el resultado</li>
+            <li>La query como texto en el mensaje</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+
+    <!-- P3 -->
+    <div class="q-card">
+      <div class="q-header"><span class="q-num">P3</span><span class="q-title">Ticket promedio de compras</span></div>
+      <div class="q-body">
+        <div class="context-box">
+          <div class="context-label">Contexto de negocio</div>
+          Finanzas quiere entender el comportamiento de gasto promedio para definir el umbral de un programa de beneficios.
+        </div>
+        <ul class="task-list">
+          <li>Calcula el monto promedio de todas las compras</li>
+          <li class="highlight">Envía al Teams: captura + query + ¿ese número es suficiente para tomar una decisión? <span class="optional-tag">comentario opcional</span></li>
+        </ul>
+        <div class="teams-delivery">
+          <div class="teams-delivery-title">💬 Qué enviar por Teams</div>
+          <ul>
+            <li>Captura de pantalla con la query ejecutada y el resultado</li>
+            <li>La query como texto en el mensaje</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+
+    <!-- P4 -->
+    <div class="q-card">
+      <div class="q-header"><span class="q-num">P4</span><span class="q-title">Compra más cara y más barata</span></div>
+      <div class="q-body">
+        <div class="context-box">
+          <div class="context-label">Contexto de negocio</div>
+          El equipo de experiencia al cliente quiere identificar los extremos del comportamiento de compra para diseñar ofertas personalizadas.
+        </div>
+        <ul class="task-list">
+          <li>Muestra el cliente que realizó la compra más cara y el que realizó la más barata</li>
+          <li>Intenta obtener ambos resultados en una sola query</li>
+          <li class="highlight">Envía al Teams: captura + query + ¿qué acción comercial tomarías con cada uno? <span class="optional-tag">comentario opcional</span></li>
+        </ul>
+        <div class="teams-delivery">
+          <div class="teams-delivery-title">💬 Qué enviar por Teams</div>
+          <ul>
+            <li>Captura de pantalla con la query ejecutada y el resultado</li>
+            <li>La query como texto en el mensaje</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+
+    <!-- P5 -->
+    <div class="q-card">
+      <div class="q-header"><span class="q-num">P5</span><span class="q-title">Ingresos por estado de pedido</span></div>
+      <div class="q-body">
+        <div class="context-box">
+          <div class="context-label">Contexto de negocio</div>
+          El CFO necesita saber cuánto ha ingresado la empresa (pedidos ya enviados) y cuánto está pendiente de confirmar en el pipeline de ventas.
+        </div>
+        <ul class="task-list">
+          <li>Muestra el total de ingresos agrupado por estado del pedido</li>
+          <li class="highlight">Envía al Teams: captura + query + ¿cómo comunicarías este resultado al CFO? <span class="optional-tag">comentario opcional</span></li>
+        </ul>
+        <div class="teams-delivery">
+          <div class="teams-delivery-title">💬 Qué enviar por Teams</div>
+          <ul>
+            <li>Captura de pantalla con la query ejecutada y el resultado</li>
+            <li>La query como texto en el mensaje</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+
+    <!-- P6 -->
+    <div class="q-card">
+      <div class="q-header"><span class="q-num">P6</span><span class="q-title">Ingreso promedio por país con segmentación de edad</span></div>
+      <div class="q-body">
+        <div class="context-box">
+          <div class="context-label">Contexto de negocio</div>
+          El equipo de expansión internacional quiere priorizar mercados en base al valor promedio de clientes activos mayores de 23 años, considerando también el volumen y estado de sus pedidos.
+        </div>
+        <ul class="task-list">
+          <li>Muestra el ingreso promedio por país, filtrando solo clientes mayores de 23 años</li>
+          <li>Incluye el conteo de pedidos agrupado por estado para cada país</li>
+          <li class="highlight">Envía al Teams: captura + query + ¿qué país priorizarías para la expansión? <span class="optional-tag">comentario opcional</span></li>
+        </ul>
+        <div class="teams-delivery">
+          <div class="teams-delivery-title">💬 Qué enviar por Teams</div>
+          <ul>
+            <li>Captura de pantalla con la query ejecutada y el resultado</li>
+            <li>La query como texto en el mensaje</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </div>
+
+
+  <!-- ===== SECCIÓN 3 ===== -->
+  <div class="section-block s3">
+    <div class="section-head">
+      <div class="section-badge">3</div>
+      <h2>Python — análisis y limpieza de datos</h2>
+      <span class="tool-badge">online-python.com</span>
+    </div>
+
+    <div class="section-intro">
+      Ingresa al entorno online en: <a href="https://www.online-python.com/" target="_blank">https://www.online-python.com/</a><br>
+      Cada pregunta incluye un <strong>DataFrame base ya construido</strong>. Tu tarea es escribir el código necesario para resolver cada punto a partir de ese DataFrame. Envía al Teams: captura del resultado + código como texto.
+    </div>
+
+    <!-- P7 -->
+    <div class="q-card">
+      <div class="q-header"><span class="q-num">P7</span><span class="q-title">Limpieza de datos de CRM bancario</span></div>
+      <div class="q-body">
+        <div class="context-box">
+          <div class="context-label">Contexto de negocio</div>
+          Recibes una extracción del CRM con datos de clientes de banca retail. El área comercial necesita esta tabla para una campaña de captación, pero el equipo detectó inconsistencias que deben resolverse antes de la entrega.
+        </div>
+        <div class="code-block">
+          <div class="code-header"><span class="code-lang">Python — DataFrame base</span><span class="code-label">Copia esto en el entorno</span></div>
+          <pre><span class="kw">import</span> pandas <span class="kw">as</span> pd
+
+df <span class="op">=</span> pd.DataFrame({
+    <span class="st">"cliente_id"</span>:  [<span class="nm">101</span>, <span class="nm">102</span>, <span class="nm">103</span>, <span class="nm">104</span>, <span class="nm">105</span>, <span class="nm">106</span>, <span class="nm">107</span>, <span class="nm">108</span>],
+    <span class="st">"nombre"</span>:      [<span class="st">"Ana Gomez"</span>, <span class="st">"Luis Perez"</span>, <span class="kw">None</span>, <span class="st">"Pedro Rios"</span>,
+                   <span class="st">"Maria Leon"</span>, <span class="st">"Carlos Vega"</span>, <span class="kw">None</span>, <span class="st">"Rosa Diaz"</span>],
+    <span class="st">"saldo"</span>:       [<span class="nm">5000</span>, <span class="kw">None</span>, <span class="nm">3200</span>, <span class="nm">8100</span>, <span class="kw">None</span>, <span class="nm">6750</span>, <span class="nm">1200</span>, <span class="kw">None</span>],
+    <span class="st">"segmento"</span>:    [<span class="st">"retail"</span>, <span class="st">"digital"</span>, <span class="st">"retail"</span>, <span class="kw">None</span>,
+                   <span class="st">"digital"</span>, <span class="st">"retail"</span>, <span class="kw">None</span>, <span class="st">"digital"</span>],
+    <span class="st">"antiguedad_años"</span>: [<span class="nm">3</span>, <span class="nm">1</span>, <span class="nm">7</span>, <span class="nm">2</span>, <span class="nm">5</span>, <span class="nm">4</span>, <span class="nm">1</span>, <span class="nm">6</span>],
+    <span class="st">"num_productos"</span>:   [<span class="nm">2</span>, <span class="nm">1</span>, <span class="nm">3</span>, <span class="nm">4</span>, <span class="kw">None</span>, <span class="nm">2</span>, <span class="nm">1</span>, <span class="nm">3</span>]
+})</pre>
+        </div>
+        <ul class="task-list">
+          <li>Muestra cuántos nulos hay por columna</li>
+          <li>Reemplaza los nulos de <code>saldo</code> y <code>num_productos</code> con el promedio de cada columna</li>
+          <li>Reemplaza los nulos de <code>nombre</code> y <code>segmento</code> con <code>"Desconocido"</code></li>
+          <li>Muestra el DataFrame resultante</li>
+          <li class="highlight">Envía al Teams: captura + código + ¿entregarías esta tabla tal como quedó? ¿Qué riesgos ves? <span class="optional-tag">comentario opcional</span></li>
+        </ul>
+        <div class="teams-delivery">
+          <div class="teams-delivery-title">💬 Qué enviar por Teams</div>
+          <ul>
+            <li>Captura del código corriendo con el DataFrame resultante visible</li>
+            <li>El código completo como texto en el mensaje</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+
+    <!-- P8 -->
+    <div class="q-card">
+      <div class="q-header"><span class="q-num">P8</span><span class="q-title">Detección de transacciones atípicas</span></div>
+      <div class="q-body">
+        <div class="context-box">
+          <div class="context-label">Contexto de negocio</div>
+          El equipo de riesgos sospecha movimientos atípicos que podrían indicar fraude o errores de carga. Necesitan tu análisis antes de la reunión de las 3pm.
+        </div>
+        <div class="code-block">
+          <div class="code-header"><span class="code-lang">Python — DataFrame base</span><span class="code-label">Copia esto en el entorno</span></div>
+          <pre><span class="kw">import</span> pandas <span class="kw">as</span> pd
+
+transacciones <span class="op">=</span> pd.DataFrame({
+    <span class="st">"cliente_id"</span>: [<span class="nm">1</span>,<span class="nm">1</span>,<span class="nm">1</span>,<span class="nm">1</span>, <span class="nm">2</span>,<span class="nm">2</span>,<span class="nm">2</span>, <span class="nm">3</span>,<span class="nm">3</span>,<span class="nm">3</span>,<span class="nm">3</span>,<span class="nm">3</span>],
+    <span class="st">"nombre"</span>:     [<span class="st">"Ana"</span>,<span class="st">"Ana"</span>,<span class="st">"Ana"</span>,<span class="st">"Ana"</span>,
+                  <span class="st">"Luis"</span>,<span class="st">"Luis"</span>,<span class="st">"Luis"</span>,
+                  <span class="st">"Maria"</span>,<span class="st">"Maria"</span>,<span class="st">"Maria"</span>,<span class="st">"Maria"</span>,<span class="st">"Maria"</span>],
+    <span class="st">"monto"</span>:      [<span class="nm">200</span>, <span class="nm">185</span>, <span class="nm">9800</span>, <span class="nm">210</span>,
+                  <span class="nm">300</span>, <span class="nm">280</span>, <span class="nm">4500</span>,
+                  <span class="nm">100</span>, <span class="nm">120</span>, <span class="nm">95</span>, <span class="nm">110</span>, <span class="nm">105</span>],
+    <span class="st">"tipo"</span>:       [<span class="st">"compra"</span>,<span class="st">"compra"</span>,<span class="st">"compra"</span>,<span class="st">"compra"</span>,
+                  <span class="st">"retiro"</span>,<span class="st">"retiro"</span>,<span class="st">"retiro"</span>,
+                  <span class="st">"compra"</span>,<span class="st">"compra"</span>,<span class="st">"compra"</span>,<span class="st">"compra"</span>,<span class="st">"compra"</span>],
+    <span class="st">"canal"</span>:      [<span class="st">"app"</span>,<span class="st">"app"</span>,<span class="st">"web"</span>,<span class="st">"app"</span>,
+                  <span class="st">"cajero"</span>,<span class="st">"cajero"</span>,<span class="st">"web"</span>,
+                  <span class="st">"app"</span>,<span class="st">"app"</span>,<span class="st">"app"</span>,<span class="st">"app"</span>,<span class="st">"app"</span>],
+    <span class="st">"ciudad"</span>:     [<span class="st">"Lima"</span>,<span class="st">"Lima"</span>,<span class="st">"Cusco"</span>,<span class="st">"Lima"</span>,
+                  <span class="st">"Lima"</span>,<span class="st">"Lima"</span>,<span class="st">"Arequipa"</span>,
+                  <span class="st">"Lima"</span>,<span class="st">"Lima"</span>,<span class="st">"Lima"</span>,<span class="st">"Lima"</span>,<span class="st">"Lima"</span>]
+})</pre>
+        </div>
+        <ul class="task-list">
+          <li>Calcula el monto total y promedio por cliente</li>
+          <li>Identifica transacciones que superen 3 veces el promedio del propio cliente</li>
+          <li>Imprime los casos detectados con nombre, monto, canal, ciudad y promedio del cliente</li>
+          <li class="highlight">Envía al Teams: captura + código + mensaje al equipo de riesgos con qué encontraste y qué acción recomendarías <span class="optional-tag">comentario opcional</span></li>
+        </ul>
+        <div class="note-box">Se valora más tu conclusión que la elegancia del código. ¿Qué harías con ese dato en la vida real? ¿A quién lo escalarías?</div>
+        <div class="teams-delivery">
+          <div class="teams-delivery-title">💬 Qué enviar por Teams</div>
+          <ul>
+            <li>Captura del código corriendo con los casos detectados visibles</li>
+            <li>El código completo como texto en el mensaje</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+
+    <!-- P9 -->
+    <div class="q-card">
+      <div class="q-header"><span class="q-num">P9</span><span class="q-title">Resumen ejecutivo de ventas trimestrales</span></div>
+      <div class="q-body">
+        <div class="context-box">
+          <div class="context-label">Contexto de negocio</div>
+          El gerente comercial tiene una presentación al comité en 30 minutos. Te pasó los datos crudos del trimestre y espera los números clave con observaciones para la reunión.
+        </div>
+        <div class="code-block">
+          <div class="code-header"><span class="code-lang">Python — DataFrame base</span><span class="code-label">Copia esto en el entorno</span></div>
+          <pre><span class="kw">import</span> pandas <span class="kw">as</span> pd
+
+ventas <span class="op">=</span> pd.DataFrame({
+    <span class="st">"mes"</span>:       [<span class="st">"Ene"</span>,<span class="st">"Ene"</span>,<span class="st">"Ene"</span>, <span class="st">"Feb"</span>,<span class="st">"Feb"</span>,<span class="st">"Feb"</span>, <span class="st">"Mar"</span>,<span class="st">"Mar"</span>,<span class="st">"Mar"</span>],
+    <span class="st">"producto"</span>:  [<span class="st">"A"</span>,<span class="st">"B"</span>,<span class="st">"C"</span>, <span class="st">"A"</span>,<span class="st">"B"</span>,<span class="st">"C"</span>, <span class="st">"A"</span>,<span class="st">"B"</span>,<span class="st">"C"</span>],
+    <span class="st">"region"</span>:    [<span class="st">"Norte"</span>,<span class="st">"Norte"</span>,<span class="st">"Sur"</span>, <span class="st">"Sur"</span>,<span class="st">"Norte"</span>,<span class="st">"Norte"</span>, <span class="st">"Norte"</span>,<span class="st">"Sur"</span>,<span class="st">"Sur"</span>],
+    <span class="st">"ingresos"</span>:  [<span class="nm">12000</span>,<span class="nm">8000</span>,<span class="nm">3500</span>, <span class="nm">15000</span>,<span class="nm">7000</span>,<span class="nm">4200</span>, <span class="nm">18000</span>,<span class="nm">9000</span>,<span class="nm">5100</span>],
+    <span class="st">"unidades"</span>:  [<span class="nm">120</span>,<span class="nm">80</span>,<span class="nm">35</span>, <span class="nm">150</span>,<span class="nm">70</span>,<span class="nm">42</span>, <span class="nm">180</span>,<span class="nm">90</span>,<span class="nm">51</span>],
+    <span class="st">"devoluciones"</span>: [<span class="nm">2</span>,<span class="nm">5</span>,<span class="nm">0</span>, <span class="nm">3</span>,<span class="nm">4</span>,<span class="nm">1</span>, <span class="nm">1</span>,<span class="nm">6</span>,<span class="nm">2</span>],
+    <span class="st">"costo_unit"</span>:   [<span class="nm">75</span>,<span class="nm">60</span>,<span class="nm">50</span>, <span class="nm">75</span>,<span class="nm">60</span>,<span class="nm">50</span>, <span class="nm">75</span>,<span class="nm">60</span>,<span class="nm">50</span>]
+})</pre>
+        </div>
+        <ul class="task-list">
+          <li>Calcula ingreso total y unidades totales por mes</li>
+          <li>Calcula el ticket promedio (ingresos / unidades) por mes</li>
+          <li>Identifica el mes con mayor ingreso total y el producto con mayor ingreso acumulado en el trimestre</li>
+          <li>Calcula qué % del ingreso total representa cada producto</li>
+          <li>Calcula el margen bruto por fila: <code>(ingresos - costo_unit * unidades)</code> y agrégalo por producto</li>
+          <li class="highlight">Envía al Teams: captura + código + el titular de una línea que usarías en la presentación del gerente <span class="optional-tag">comentario opcional</span></li>
+        </ul>
+        <div class="teams-delivery">
+          <div class="teams-delivery-title">💬 Qué enviar por Teams</div>
+          <ul>
+            <li>Captura del código corriendo con todos los resultados visibles</li>
+            <li>El código completo como texto en el mensaje</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+
+    <!-- P10 — FUNCIÓN CON BLANCOS -->
+    <div class="q-card">
+      <div class="q-header"><span class="q-num">P10</span><span class="q-title">Completa la función de clasificación y resumen de cartera</span></div>
+      <div class="q-body">
+        <div class="context-box">
+          <div class="context-label">Contexto de negocio</div>
+          El equipo comercial necesita una función que clasifique a cada cliente por categoría de valor según su saldo — <strong>Alto</strong> (≥ 5000), <strong>Medio</strong> (entre 2000 y 4999) o <strong>Bajo</strong> (menor a 2000) — y que además produzca un resumen por segmento con saldo promedio, número de clientes y total de productos contratados. El resultado debe estar ordenado de mayor a menor saldo promedio.
+        </div>
+        <p style="font-size:13px;color:var(--ink-3);margin:.5rem 0 .875rem;">La función tiene su estructura definida. Debes <strong>completar los espacios marcados con <code style="color:#f97316;background:rgba(249,115,22,0.1);">___</code></strong> — algunos corresponden a valores, otros a nombres de funciones o métodos de pandas.</p>
+        <div class="code-block">
+          <div class="code-header"><span class="code-lang">Python — Función incompleta</span><span class="code-label">Completa los espacios marcados con ___</span></div>
+          <pre><span class="kw">import</span> pandas <span class="kw">as</span> pd
+
+df <span class="op">=</span> pd.DataFrame({
+    <span class="st">"cliente_id"</span>:      [<span class="nm">101</span>,<span class="nm">102</span>,<span class="nm">103</span>,<span class="nm">104</span>,<span class="nm">105</span>,<span class="nm">106</span>,<span class="nm">107</span>,<span class="nm">108</span>],
+    <span class="st">"nombre"</span>:          [<span class="st">"Ana"</span>,<span class="st">"Luis"</span>,<span class="st">"Pedro"</span>,<span class="st">"Maria"</span>,<span class="st">"Jorge"</span>,<span class="st">"Sofia"</span>,<span class="st">"Carlos"</span>,<span class="st">"Elena"</span>],
+    <span class="st">"saldo"</span>:           [<span class="nm">6500</span>,<span class="nm">1200</span>,<span class="nm">3400</span>,<span class="nm">8900</span>,<span class="nm">2100</span>,<span class="nm">500</span>,<span class="nm">4800</span>,<span class="nm">11200</span>],
+    <span class="st">"segmento"</span>:        [<span class="st">"retail"</span>,<span class="st">"digital"</span>,<span class="st">"retail"</span>,<span class="st">"digital"</span>,<span class="st">"retail"</span>,<span class="st">"digital"</span>,<span class="st">"retail"</span>,<span class="st">"digital"</span>],
+    <span class="st">"antiguedad_años"</span>:  [<span class="nm">4</span>,<span class="nm">1</span>,<span class="nm">6</span>,<span class="nm">3</span>,<span class="nm">2</span>,<span class="nm">1</span>,<span class="nm">5</span>,<span class="nm">8</span>],
+    <span class="st">"num_productos"</span>:   [<span class="nm">2</span>,<span class="nm">1</span>,<span class="nm">3</span>,<span class="nm">4</span>,<span class="nm">2</span>,<span class="nm">1</span>,<span class="nm">3</span>,<span class="nm">5</span>]
+})
+
+<span class="kw">def</span> <span class="fn">clasificar_cliente</span>(saldo):
+    <span class="cm"># Retorna la categoría de valor según el saldo del cliente</span>
+    <span class="kw">if</span> saldo <span class="op">>=</span> <span class="blank">___</span>:
+        <span class="kw">return</span> <span class="blank">___</span>
+    <span class="kw">elif</span> saldo <span class="op">>=</span> <span class="blank">___</span>:
+        <span class="kw">return</span> <span class="blank">___</span>
+    <span class="kw">else</span>:
+        <span class="kw">return</span> <span class="blank">___</span>
+
+<span class="kw">def</span> <span class="fn">procesar_cartera</span>(df):
+    <span class="cm"># 1. Clasifica cada cliente según su saldo</span>
+    df[<span class="st">"categoria"</span>] <span class="op">=</span> df[<span class="st">"saldo"</span>].<span class="blank">___</span>(clasificar_cliente)
+
+    <span class="cm"># 2. Agrega por segmento: promedio de saldo, conteo de clientes</span>
+    <span class="cm">#    y suma de num_productos — todo en una sola operación</span>
+    resumen <span class="op">=</span> df.<span class="fn">groupby</span>(<span class="st">"segmento"</span>).<span class="blank">___</span>({
+        <span class="st">"saldo"</span>:          <span class="blank">___</span>,
+        <span class="st">"cliente_id"</span>:     <span class="st">"count"</span>,
+        <span class="st">"num_productos"</span>:  <span class="st">"sum"</span>
+    }).<span class="blank">___</span>()
+
+    <span class="cm"># 3. Renombra las columnas para que sean legibles</span>
+    resumen.<span class="blank">___</span>(columns={
+        <span class="st">"saldo"</span>:         <span class="st">"saldo_promedio"</span>,
+        <span class="st">"cliente_id"</span>:    <span class="st">"num_clientes"</span>,
+        <span class="st">"num_productos"</span>: <span class="st">"productos_total"</span>
+    }, <span class="blank">___</span><span class="op">=</span><span class="kw">True</span>)
+
+    <span class="cm"># 4. Ordena de mayor a menor saldo promedio</span>
+    resumen <span class="op">=</span> resumen.<span class="blank">___</span>(<span class="st">"saldo_promedio"</span>, <span class="blank">___</span><span class="op">=</span><span class="kw">False</span>)
+
+    <span class="cm"># 5. Redondea saldo_promedio a 2 decimales</span>
+    resumen[<span class="st">"saldo_promedio"</span>] <span class="op">=</span> resumen[<span class="st">"saldo_promedio"</span>].<span class="blank">___</span>(<span class="nm">2</span>)
+
+    <span class="kw">return</span> df, resumen
+
+
+df_resultado, resumen_segmento <span class="op">=</span> <span class="fn">procesar_cartera</span>(df)
+
+<span class="fn">print</span>(<span class="st">"Cartera clasificada:"</span>)
+<span class="fn">print</span>(df_resultado[[<span class="st">"nombre"</span>, <span class="st">"saldo"</span>, <span class="st">"segmento"</span>, <span class="st">"categoria"</span>]])
+<span class="fn">print</span>(<span class="st">"\nResumen por segmento:"</span>)
+<span class="fn">print</span>(resumen_segmento)</pre>
+        </div>
+
+        <p style="font-size:12.5px;color:var(--ink-3);margin:.75rem 0 .5rem;line-height:1.6;">Algunos de los blancos corresponden a métodos de pandas que deberás identificar. Como referencia, la salida esperada de <code>resumen_segmento</code> tiene esta forma:</p>
+        <div class="code-block" style="margin-top:0">
+          <div class="code-header"><span class="code-lang">Salida esperada</span><span class="code-label">referencia</span></div>
+          <pre><span class="cm">           saldo_promedio  num_clientes  productos_total</span>
+<span class="cm">segmento</span>
+<span class="cm">digital        5700.00             4               11</span>
+<span class="cm">retail         4200.00             4               10</span></pre>
+        </div>
+
+        <ul class="task-list">
+          <li>Completa todos los espacios con <code style="color:#f97316">___</code> — valores, nombres de columnas y nombres de funciones o métodos</li>
+          <li>Verifica que la clasificación y el resumen sean consistentes con los 8 clientes del DataFrame</li>
+          <li class="highlight">Envía al Teams: captura + código completado + ¿qué segmento priorizarías y por qué? <span class="optional-tag">comentario opcional</span></li>
+        </ul>
+        <div class="note-box">Se evalúa que entiendas la lógica de cada paso, no solo que adivines los blancos. Si algo no funciona a la primera, muestra el error y explica qué intentaste corregir.</div>
+        <div class="teams-delivery">
+          <div class="teams-delivery-title">💬 Qué enviar por Teams</div>
+          <ul>
+            <li>Captura del código corriendo con los dos resultados visibles</li>
+            <li>El código completo con todos los espacios completados, como texto en el mensaje</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+
+  </div>
+
+
+  <!-- FOOTER -->
+  <div class="doc-footer">
+    <h3>Checklist de entrega por Teams</h3>
+    <p>Antes de dar por finalizada la prueba, verifica que hayas enviado lo siguiente en el chat de Teams:</p>
+    <ul class="checklist">
+      <li>P1 — Imagen o archivo del modelo ER <span class="optional-tag">+ párrafo de decisiones opcional</span></li>
+      <li>P2 — Captura SQL + query <span class="optional-tag">+ observación opcional</span></li>
+      <li>P3 — Captura SQL + query <span class="optional-tag">+ reflexión opcional</span></li>
+      <li>P4 — Captura SQL + query <span class="optional-tag">+ comentario comercial opcional</span></li>
+      <li>P5 — Captura SQL + query <span class="optional-tag">+ mensaje al CFO opcional</span></li>
+      <li>P6 — Captura SQL + query <span class="optional-tag">+ recomendación de mercado opcional</span></li>
+      <li>P7 — Captura Python + código <span class="optional-tag">+ observación de calidad opcional</span></li>
+      <li>P8 — Captura Python + código <span class="optional-tag">+ mensaje a riesgos opcional</span></li>
+      <li>P9 — Captura Python + código <span class="optional-tag">+ titular ejecutivo opcional</span></li>
+      <li>P10 — Captura Python + código completado <span class="optional-tag">+ observación comercial opcional</span></li>
+    </ul>
+    <p style="margin-top:1rem;font-size:13px;color:var(--ink-3);">No hay respuestas únicas correctas. Queremos ver <strong>cómo piensas</strong>, cómo comunicas y qué criterio aplicas cuando los datos no son perfectos. ¡Éxitos!</p>
+  </div>
+
+</div>
+</body>
+</html>
